@@ -42,4 +42,4 @@ mongose.connect(config.DB_CONNECTION).then(() => {
 
 
 
-console.log(app._router) 
+// console.log(app._router) 
