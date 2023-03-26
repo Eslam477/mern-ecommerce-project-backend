@@ -1,6 +1,15 @@
-# mern-ecommerce-project
-<<<<<<< HEAD
-An e-commerce project developed in JavaScript and Node.js
-=======
-An e-commerce project developed in JavaScript and Node.js
->>>>>>> 343591aa68075677093ad1bce385f7f13e335d0f
+# Express e-commerce application
+A backend application to provide an API for React
+The system is running with [ Express,node,mongoDB ]
+You can visit and examine the React code that uses the API from [here](https://github.com/Eslam477/mern-ecommerce-project-frontend)
+
+You can visit this [site](https://mern-ecommerce-project-frontend.onrender.com/) to see and experience the project
+
+## Installation
+
+Use the package manager npm to install dependencies.
+
+```bash
+npm install
+```
+
