@@ -23,11 +23,6 @@ app.use(session({
 app.use(helmet()) // for security
 
 
-
-
-
-
-
 /*-----------------app------------------*/
 
 
