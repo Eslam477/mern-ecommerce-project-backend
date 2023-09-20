@@ -3,7 +3,7 @@ import userModel from '../../models/user.js'
 import productModel from '../../models/products.js'
 import bcrypt from 'bcryptjs'
 const userRegister = (req, res) => {
-    userModel.findOne({ userName: req.body.userName }, async (err, doc) => {
+    userModel.findOne({ email: req.body.email }, async (err, doc) => {
         if (err) {
             throw err
         }
@@ -16,7 +16,12 @@ const userRegister = (req, res) => {
             )
         } else {
             const hashPass = await bcrypt.hash(req.body.password, 10)
-            const newUser = new userModel({ userName: req.body.userName, password: hashPass })
+            const newUser = new userModel({ 
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                email: req.body.email,
+                password: hashPass
+            })
             await newUser.save((err, done) => {
                 if (err) {
                     throw err
@@ -46,7 +51,7 @@ const userRegister = (req, res) => {
 
 
 const userLogin = (req, res) => {
-    userModel.findOne({ userName: req.body.userName }, async (err, doc) => {
+    userModel.findOne({ email: req.body.email }, async (err, doc) => {
         if (err) {
             throw err
         }
@@ -68,7 +73,9 @@ const userLogin = (req, res) => {
                         {
                             data: {
                                 _id: doc._id,
-                                userName: doc.userName,
+                                firstName: doc.firstName,
+                                lastName: doc.lastName,
+                                email: doc.email,
                             },
                             msg: 'Successfully Logged In',
                             actionDone: true,
