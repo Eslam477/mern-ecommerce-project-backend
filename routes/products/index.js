@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { getProducts, getSingleProduct, addToCart } from '../../controllers/product/index.js';
+import { getProducts, getSingleProduct, getSearchData , addToCart } from '../../controllers/product/index.js';
 import productModel from '../../models/products.js'
 var products = Router();
 products.get('/products', getProducts)
 products.get('/product/:id', getSingleProduct)
+products.get('/search/:searchKey', getSearchData)
 products.post('/addToCart', addToCart)
 
 products.get('/addProduct', async (req, res) => {

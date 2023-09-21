@@ -5,6 +5,10 @@ var getProducts = async (req, res) => {
     const result = await productModel.find()
     res.json(result)
 }
+var getSearchData = async (req, res) => {
+    const result = await productModel.find({ name: req.params.searchKey })
+    res.json(result)
+}
 var getSingleProduct = async (req, res) => {
     var result = await productModel.findOne({ _id: mongoose.Types.ObjectId(req.params.id) })
     res.json(result)
@@ -37,4 +41,4 @@ var addToCart = async (req, res) => {
 //     res.json(result)
 // }
 
-export { getProducts, getSingleProduct, addToCart };
+export { getProducts, getSingleProduct, getSearchData, addToCart };
