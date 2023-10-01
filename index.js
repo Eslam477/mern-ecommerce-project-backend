@@ -20,18 +20,20 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }))
-app.use(helmet()) // for security
+
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(helmet()) // for security
+}
 
 
 /*-----------------app------------------*/
-
 
 app.use('/collection', collectionRouts)
 
 mongose.connect(config.DB_CONNECTION).then(() => {
     app.listen(port, () => { console.log(`The server run at http://localhst:${port}`) })
-}).catch((e) => {
-    throw e
+}).catch(() => {
     process.exit();
 })
 

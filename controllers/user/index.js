@@ -115,9 +115,9 @@ const getUserCart = async (req, res) => {
             description: singleProduct.description,
             price: singleProduct.price,
             count: specifiedUser.cart[i].count,
-            image: singleProduct.imgs[0]
+            image: `collection/img/${specifiedUser.cart[i].productId}/${singleProduct.imgs[0]}`
         }
-        cartData.productsData = [...cartData.productsData, dataToInsert]
+        cartData.productsData = [...cartData.productsData ,dataToInsert]
         cartData.productsTotalPrice += singleProduct.price * specifiedUser.cart[i].count
     }
     cartData.subTotal += cartData.productsTotalPrice + shipping
@@ -128,6 +128,7 @@ const getUserCart = async (req, res) => {
         actionDone: true,
         cartData
     })
+    console.log(result.cartData.productsData)
     res.json(result)
 
 }

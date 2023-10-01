@@ -20,6 +20,9 @@ var userSchema = new mongoose.Schema({
     },
     cart: {
         type: []
+    },
+    isAdmin:{
+        type: Boolean
     }
 })
 
