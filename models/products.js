@@ -18,8 +18,11 @@ var productSchema = new Schema({
     },
     imgs: {
         type: [String],
+    },
+    available:{
+        type:Boolean,
+        required: true
     }
-
 })
 
 const productModel = model('products', productSchema)

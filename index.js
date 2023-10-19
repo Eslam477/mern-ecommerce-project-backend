@@ -10,18 +10,21 @@ import helmet from "helmet";
 const app = express();
 const config = dotenv.config().parsed
 const port = config.SERVER_PORT;
+// app.use(express.urlencoded({ extended: false }));
+// app.use(express.json());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
+
+
 app.use(cors())
 app.use(session({
     secret: 'secret',
     resave: false,
     saveUninitialized: false
 }))
-
-
 if (process.env.NODE_ENV === 'production') {
     app.use(helmet()) // for security
 }
@@ -36,7 +39,3 @@ mongose.connect(config.DB_CONNECTION).then(() => {
 }).catch(() => {
     process.exit();
 })
-
-
-
-// console.log(app._router) 
