@@ -1,7 +1,7 @@
 node_modules
 .env
-*.jpg
-*.jpeg
-*.png
-*.gif
-*.bmp
+# *.jpg
+# *.jpeg
+# *.png
+# *.gif
+# *.bmp
