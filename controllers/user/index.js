@@ -20,7 +20,8 @@ const userRegister = (req, res) => {
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 email: req.body.email,
-                password: hashPass
+                password: hashPass,
+                isAdmin:false
             })
             await newUser.save((err, done) => {
                 if (err) {
@@ -38,15 +39,6 @@ const userRegister = (req, res) => {
     })
 
 }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -76,6 +68,7 @@ const userLogin = (req, res) => {
                                 firstName: doc.firstName,
                                 lastName: doc.lastName,
                                 email: doc.email,
+                                isAdmin: doc.isAdmin,
                             },
                             msg: 'Successfully Logged In',
                             actionDone: true,
@@ -151,5 +144,11 @@ const deleteProductFromCart = (req, res) => {
 
 
 
+const isAdminF = async (req,res)=>{
+    const { _id } = req.body
+    const userData = await userModel.findById(Types.ObjectId(_id))
+    res.json({isAdmin: userData.isAdmin})
+}
 
-export { userRegister, userLogin, getUserCart, deleteProductFromCart }
+
+export { userRegister, userLogin, getUserCart, deleteProductFromCart,isAdminF }
