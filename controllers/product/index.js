@@ -117,7 +117,7 @@ const getSearchData = async (req, res) => {
     try {
         const { searchKey } = req.params;
         const result = await productModel.find({
-            name: { $regex: searchKey, $options: "i" },
+            name: { $regex: searchKey, $options: "i" }
         });
         const modifiedResult = result.map((product) => {
             product.imgs = [`collection/img/${product._id}/${product.imgs[0]}`];
