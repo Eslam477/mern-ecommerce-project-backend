@@ -121,7 +121,6 @@ const getUserCart = async (req, res) => {
         actionDone: true,
         cartData
     })
-    console.log(result.cartData.productsData)
     res.json(result)
 
 }

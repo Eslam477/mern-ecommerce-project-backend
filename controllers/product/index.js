@@ -71,7 +71,6 @@ const addProductData = (req, res) => {
             `./store/productsImg/${req.body.productId}`
         )
 
-        console.log(fs.existsSync(cacheFilePath));
 
         if (fs.existsSync(cacheFilePath)) {
             fs.move(cacheFilePath, savingFilePath, (error) => {

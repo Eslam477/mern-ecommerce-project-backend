@@ -28,4 +28,16 @@ const adminGetProductsBySearch = async (req, res) => {
 
 }
 
-export { adminGetProductsBySearch };
+
+const adminGetProductData = async (req, res)=>{
+    const { productId } = req.params
+    const productData = await productModel.findById(Types.ObjectId(productId)).lean()
+
+    res.json({
+        actionDone: true,
+        data: productData
+    })
+
+}
+
+export { adminGetProductsBySearch, adminGetProductData};
