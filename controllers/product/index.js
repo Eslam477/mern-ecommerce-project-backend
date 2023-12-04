@@ -7,13 +7,33 @@ import userModel from "../../models/user.js";
 import multer from 'multer'
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+
+
+
+
+
+const cacheDirHandler = ()=>{
+    const cacheDirPath = path.join('./store/cache')
+    if(!fs.existsSync(cacheDirPath)){
+        fs.mkdirSync(cacheDirPath)
+    }
+    return cacheDirPath
+}
+
+
+
+
 const addProductImgs = async (req, res) => {
 
     var imgsNameList = []
     const productId = mongoose.Types.ObjectId();
+    const cacheDirPath = cacheDirHandler()
+
+
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
-            const destinationFolder = `./store/cache/${productId}`;
+            const destinationFolder = `${cacheDirPath}/${productId}`;
 
             if (!fs.existsSync(destinationFolder)) {
                 fs.mkdirSync(destinationFolder);
@@ -48,6 +68,8 @@ const addProductImgs = async (req, res) => {
 }
 
 
+
+
 const addProductData = (req, res) => {
     const newProduct = new productModel({
         _id: mongoose.Types.ObjectId(req.body.productId),
@@ -63,10 +85,10 @@ const addProductData = (req, res) => {
 
 
     if (newProduct.save()) {
+        const cacheDirPath = cacheDirHandler()
         const cacheFilePath = path.join(
-            `./store/cache/${req.body.productId}`
+            `${cacheDirPath}/${req.body.productId}`
         )
-
         const savingFilePath = path.join(
             `./store/productsImg/${req.body.productId}`
         )
