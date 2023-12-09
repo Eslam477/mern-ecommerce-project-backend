@@ -5,21 +5,10 @@ import path, { dirname } from "path";
 import productModel from "../../models/products.js";
 import userModel from "../../models/user.js";
 import multer from 'multer'
+import { cacheDirHandler } from "../handlers.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-
-
-
-
-
-const cacheDirHandler = ()=>{
-    const cacheDirPath = path.join('./store/cache')
-    if(!fs.existsSync(cacheDirPath)){
-        fs.mkdirSync(cacheDirPath)
-    }
-    return cacheDirPath
-}
 
 
 
@@ -80,9 +69,6 @@ const addProductData = (req, res) => {
         available: req.body.availability,
         imgs: req.body.imgsNameList
     });
-
-
-
 
     if (newProduct.save()) {
         const cacheDirPath = cacheDirHandler()
