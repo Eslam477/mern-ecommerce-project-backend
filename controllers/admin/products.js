@@ -123,6 +123,7 @@ const adminUpdateProductData = (req, res) => {
                     res.status(500).json(response)
                 } else {
                     console.log('Directory moved successfully!');
+                    
                     const response = {
                         actionDone: true,
                         msg:'The product has been added successfully',
