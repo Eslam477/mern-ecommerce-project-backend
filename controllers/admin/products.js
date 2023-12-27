@@ -90,30 +90,31 @@ const adminUpdateProductImgs = (req, res) => {
 
 
 
-const adminUpdateProductData = (req, res) => {
-    console.log(req.body);
+const adminUpdateProductData = async (req, res) => {
     const data = req.body 
-    const resultFromupdate = productModel.findByIdAndUpdate({_id: Types.ObjectId(data.productId)},{
+    const resultFromupdate = await productModel.findByIdAndUpdate({_id: Types.ObjectId(data.productId)},{$set:{
         name:data.name,
         description:data.description,
         price:data.price,
         quantity:data.quantity,
         available:data.availability,
         imgs:data.imgsUrlList
-    })
+    }})
+
+    
 
 
 
+    const cacheDirPath = cacheDirHandler()
+    const cacheFilePath = path.join(
+        `${cacheDirPath}/${req.body.folderInCacheName}`
+    )
+    const savingFilePath = path.join(
+        `./store/productsImg/${req.body.productId}`
+    )
     if(resultFromupdate){
-        const cacheDirPath = cacheDirHandler()
-        const cacheFilePath = path.join(
-            `${cacheDirPath}/${req.body.folderInCacheName}`
-        )
-        const savingFilePath = path.join(
-            `./store/productsImg/${req.body.productId}`
-        )
         if (fs.existsSync(cacheFilePath)) {
-            fs.move(cacheFilePath, savingFilePath,{ overwrite: true }, (error) => {
+            fs.copy(cacheFilePath, savingFilePath, (error) => {
                 if (error) {
                     console.error('An error occurred while moving the directory:', error);
                     const response = {
@@ -122,16 +123,27 @@ const adminUpdateProductData = (req, res) => {
                     }
                     res.status(500).json(response)
                 } else {
+
                     console.log('Directory moved successfully!');
                     
                     const response = {
                         actionDone: true,
-                        msg:'The product has been added successfully',
+                        msg:'Product details have been updated',
+                        cacheFilePath
                     }
                     res.status(201).json(response)
                 }
             })
+
+
+        }else{
+            const response = {
+                actionDone: true,
+                msg:'Product details have been updated',
+            }
+            res.status(201).json(response)
         }
+
     }else{
         const response = {
             actionDone: false,
@@ -139,7 +151,38 @@ const adminUpdateProductData = (req, res) => {
         }
         res.status(500).json(response)
     }
+
+
+
+
 }
 
 
-export { adminGetProductsBySearch, adminGetProductData, adminUpdateProductImgs, adminUpdateProductData };
+const adminRemoveCashAfterUpdate = (req, res)=>{
+    const cacheFilePath = req.body.cacheFilePath
+    console.log(req.body);
+
+
+
+    if(fs.existsSync(cacheFilePath)){
+        fs.removeSync(cacheFilePath)
+
+        res.json(
+            {
+                actionDone:true
+            }
+        )
+    }else{
+        res.json(
+            {
+                actionDone:false
+            }
+        )
+    }
+
+
+
+}
+
+
+export { adminGetProductsBySearch, adminGetProductData, adminUpdateProductImgs, adminUpdateProductData ,adminRemoveCashAfterUpdate};
