@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { adminGetProductsBySearch, adminGetProductData, adminUpdateProductImgs,adminUpdateProductData,adminRemoveCashAfterUpdate } from "../../controllers/admin/products.js";
+import { adminGetProductsBySearch, adminGetProductData, adminUpdateProductImgs,adminUpdateProductData,adminRemoveCashAfterUpdate,adminDashpordData } from "../../controllers/admin/products.js";
 
 
 var admin = Router();
 
+admin.get('/adminDashpordData', adminDashpordData)
 admin.get('/getProductsBySearch/:searchText/:searchBy', adminGetProductsBySearch)
 admin.get('/getProductData/:productId', adminGetProductData)
 admin.post('/adminUpdateProductImgs', adminUpdateProductImgs)

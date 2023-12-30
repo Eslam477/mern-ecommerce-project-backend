@@ -91,19 +91,17 @@ const adminUpdateProductImgs = (req, res) => {
 
 
 const adminUpdateProductData = async (req, res) => {
-    const data = req.body 
-    const resultFromupdate = await productModel.findByIdAndUpdate({_id: Types.ObjectId(data.productId)},{$set:{
-        name:data.name,
-        description:data.description,
-        price:data.price,
-        quantity:data.quantity,
-        available:data.availability,
-        imgs:data.imgsUrlList
-    }})
-
-    
-
-
+    const data = req.body
+    const resultFromupdate = await productModel.findByIdAndUpdate({ _id: Types.ObjectId(data.productId) }, {
+        $set: {
+            name: data.name,
+            description: data.description,
+            price: data.price,
+            quantity: data.quantity,
+            available: data.availability,
+            imgs: data.imgsUrlList
+        }
+    })
 
     const cacheDirPath = cacheDirHandler()
     const cacheFilePath = path.join(
@@ -112,23 +110,23 @@ const adminUpdateProductData = async (req, res) => {
     const savingFilePath = path.join(
         `./store/productsImg/${req.body.productId}`
     )
-    if(resultFromupdate){
+    if (resultFromupdate) {
         if (fs.existsSync(cacheFilePath)) {
             fs.copy(cacheFilePath, savingFilePath, (error) => {
                 if (error) {
                     console.error('An error occurred while moving the directory:', error);
                     const response = {
                         actionDone: false,
-                        msg:`An error occurred while moving the directory: ${error}`,
+                        msg: `An error occurred while moving the directory: ${error}`,
                     }
                     res.status(500).json(response)
                 } else {
 
                     console.log('Directory moved successfully!');
-                    
+
                     const response = {
                         actionDone: true,
-                        msg:'Product details have been updated',
+                        msg: 'Product details have been updated',
                         cacheFilePath
                     }
                     res.status(201).json(response)
@@ -136,18 +134,18 @@ const adminUpdateProductData = async (req, res) => {
             })
 
 
-        }else{
+        } else {
             const response = {
                 actionDone: true,
-                msg:'Product details have been updated',
+                msg: 'Product details have been updated',
             }
             res.status(201).json(response)
         }
 
-    }else{
+    } else {
         const response = {
             actionDone: false,
-            msg:`An error was detected while saving text data`,
+            msg: `An error was detected while saving text data`,
         }
         res.status(500).json(response)
     }
@@ -158,24 +156,24 @@ const adminUpdateProductData = async (req, res) => {
 }
 
 
-const adminRemoveCashAfterUpdate = (req, res)=>{
+const adminRemoveCashAfterUpdate = (req, res) => {
     const cacheFilePath = req.body.cacheFilePath
     console.log(req.body);
 
 
 
-    if(fs.existsSync(cacheFilePath)){
+    if (fs.existsSync(cacheFilePath)) {
         fs.removeSync(cacheFilePath)
 
         res.json(
             {
-                actionDone:true
+                actionDone: true
             }
         )
-    }else{
+    } else {
         res.json(
             {
-                actionDone:false
+                actionDone: false
             }
         )
     }
@@ -185,4 +183,23 @@ const adminRemoveCashAfterUpdate = (req, res)=>{
 }
 
 
-export { adminGetProductsBySearch, adminGetProductData, adminUpdateProductImgs, adminUpdateProductData ,adminRemoveCashAfterUpdate};
+
+
+
+
+
+
+
+const adminDashpordData = async (req, res) => {
+
+
+        const productsCount = await productModel.countDocuments({});
+        console.log(productsCount);
+        res.json({
+            productsCount
+        });
+
+};
+
+
+export { adminGetProductsBySearch, adminGetProductData, adminUpdateProductImgs, adminUpdateProductData, adminRemoveCashAfterUpdate, adminDashpordData };
