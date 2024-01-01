@@ -5,13 +5,13 @@ import mongose from 'mongoose'
 import dotenv from 'dotenv'
 import session from 'express-session'
 import collectionRouts from "./routes/index.js";
+import {generalVerifyToken} from './middleware/jwt_middleware.js'
 import helmet from "helmet";
 /*-----------------setup------------------*/
 const app = express();
 const config = dotenv.config().parsed
 const port = config.SERVER_PORT;
-// app.use(express.urlencoded({ extended: false }));
-// app.use(express.json());
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
@@ -31,7 +31,7 @@ if (process.env.NODE_ENV === 'production') {
 
 
 /*-----------------app------------------*/
-
+app.use(generalVerifyToken)
 app.use('/collection', collectionRouts)
 
 mongose.connect(config.DB_CONNECTION).then(() => {
